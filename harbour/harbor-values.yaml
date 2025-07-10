@@ -1,0 +1,42 @@
+expose:
+  type: clusterIP
+  tls:
+    enabled: false
+  ingress:
+    hosts:
+      core: harbor.pixiescloud.com
+      notary: notary.harbor.pixiescloud.com
+    controller: default
+    annotations: {}
+  clusterIP:
+    name: harbor
+    staticClusterIP: ""
+    ports:
+      httpPort: 80
+      httpsPort: 443
+    annotations: {}
+    labels: {}
+
+externalURL: https://harbor.pixiescloud.com
+
+harborAdminPassword: Harbor12345
+
+persistence:
+  enabled: true
+  storageClass: longhorn
+  persistentVolumeClaim:
+    registry:
+      size: 5Gi
+    chartmuseum:
+      size: 2Gi
+    jobservice:
+      size: 1Gi
+    database:
+      size: 2Gi
+    redis:
+      size: 1Gi
+    trivy:
+      size: 5Gi
+
+trivy:
+  enabled: true
