@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: harbor
+  namespace: harbor
+spec:
+  gateways:
+    - istio-system/pixie-gateway
+  hosts:
+    - harbor.pixiescloud.com
+  http:
+    - name: "core-api-v2"
+      match:
+        - uri:
+            prefix: /api/
+        - uri:
+            prefix: /service/
+        - uri:
+            prefix: /v2/
+        - uri:
+            prefix: /chartrepo/
+        - uri:
+            prefix: /c/
+      route:
+        - destination:
+            host: harbor-core
+            port:
+              number: 80
+    - name: "portal-root"
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: harbor-portal
+            port:
+              number: 80
